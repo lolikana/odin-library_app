@@ -1,0 +1,16 @@
+$breakpoints: (
+  'xxs': 'screen and (min-width: 440px)',
+  'xs': 'screen and (min-width: 560px)',
+  'sm': 'screen and (min-width: 680px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 1024px)',
+  'xl': 'screen and (min-width: 1440px)',
+  'safari': 'screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0)',
+) !default;
+
+// 初期値はlg(tablet screen size)
+@mixin mq($breakpoint: lg) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
