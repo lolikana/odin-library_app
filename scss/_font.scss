@@ -6,6 +6,17 @@ h2 {
   font-size: calc(18px + (28 - 18) * ((100vw - 300px) / (1600 - 300)));
 }
 
+h3 {
+}
+
 p {
+  font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
+}
+
+tr th {
+  font-size: calc(16px + (22 - 16) * ((100vw - 300px) / (1600 - 300)));
+}
+
+tr td {
   font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
 }

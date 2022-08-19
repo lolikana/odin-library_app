@@ -97,9 +97,17 @@ p {
   font-size: calc(14px + 2 * (100vw - 300px) / 1300);
 }
 
+tr th {
+  font-size: calc(16px + 6 * (100vw - 300px) / 1300);
+}
+
+tr td {
+  font-size: calc(14px + 2 * (100vw - 300px) / 1300);
+}
+
 .header {
   height: 128px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+  box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,7 +149,53 @@ p {
   }
   .header__log {
     flex-direction: column;
-    border: 1px solid #222;
+    margin-top: 2rem;
     padding: 0.5rem;
+    box-shadow: 4px 4px 10px 1px #222;
+    border-radius: 2px;
+    background-color: #fff;
   }
+}
+
+main {
+  padding: 3rem;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+table thead tr {
+  border-bottom: 3px inset black;
+}
+table thead tr th {
+  padding: 0.5rem;
+  text-transform: uppercase;
+}
+table tbody tr {
+  border-bottom: 1px solid rgba(65, 65, 65, 0.5);
+}
+table tbody tr:nth-child(even) {
+  background-color: rgba(135, 135, 135, 0.4);
+}
+table tbody tr:nth-child(even):hover {
+  background-color: rgba(135, 135, 135, 0.3);
+}
+table tbody tr:nth-child(odd):hover {
+  background-color: rgba(135, 135, 135, 0.1);
+}
+table tbody tr td {
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+}
+table tbody tr td:first-child {
+  text-align: left;
+}
+table .read {
+  margin: auto;
 }

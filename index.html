@@ -9,7 +9,7 @@
   <body>
     <header class="header">
       <div class="header__title">
-        <img src="./images/book-svgrepo-com.svg" alt="Logo of a book">
+        <img src="./images/book-svgrepo-com.svg" alt="Logo of a book" />
         <h1>Library</h1>
       </div>
       <div class="header__log">
@@ -18,6 +18,42 @@
         <p>Read: 2</p>
       </div>
     </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">title</th>
+            <th scope="col">author</th>
+            <th scope="col">pages</th>
+            <th scope="col">published</th>
+            <th scope="col">read/not read</th>
+          </tr>
+        </thead>
+        <tbody class="books_library">
+          <tr>
+            <td>Lord of the Ring: The Fellowship of the Ring</td>
+            <td>J.R.R. Tolkien</td>
+            <td>423 pages</td>
+            <td>29/07/1954</td>
+            <td class="read"><input type="checkbox" name="read" class="read"/></td>
+          </tr>
+          <tr>
+            <td>Lord of the Ring: The Two Towers</td>
+            <td>J.R.R. Tolkien</td>
+            <td>352 pages</td>
+            <td>11/11/1954</td>
+            <td class="read"><input type="checkbox" name="read" class="read"/></td>
+          </tr>
+          <tr>
+            <td>Lord of the Ring: The Return of the King</td>
+            <td>J.R.R. Tolkien</td>
+            <td>416 pages</td>
+            <td>20/10/1955</td>
+            <td class="read"><input type="checkbox" name="read" class="read"/></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
