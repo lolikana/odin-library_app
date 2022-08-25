@@ -5,8 +5,13 @@ const tr = table.getElementsByTagName('tr');
 // ------ lib ------ //
 
 const changeFormatDate = (date: string) => {
-  const splitDate = date.split('-');
-  return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
+  if (date) {
+    const splitDate = date.split('-');
+    console.log(splitDate);
+    return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
+  } else {
+    return 'unknown';
+  }
 };
 
 // ------ MODAL ------ //
@@ -31,6 +36,7 @@ window.addEventListener('click', e => {
 // ------ ADD BOOK ------ //
 //? Book object
 class Book {
+  // id: string;
   title: string;
   author: string;
   pages: string;
@@ -39,12 +45,14 @@ class Book {
   createBook: () => void;
 
   constructor(
+    id: string,
     title: string,
     author: string,
     pages: string,
     published: string,
     read: boolean
   ) {
+    id;
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -52,6 +60,7 @@ class Book {
     this.read = read;
     this.createBook = () => {
       var newRow = tbodyRef!.insertRow();
+      newRow.id = id;
       var newCell = newRow.insertCell();
       newCell.innerHTML = title;
       newCell = newRow.insertCell();
@@ -113,13 +122,27 @@ const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST')!);
 
 if (getLocalStorage) {
   getLocalStorage.map((item: BookType) => {
-    const book = new Book(item.title, item.author, item.pages, item.published, item.read);
+    const book = new Book(
+      item.id,
+      item.title,
+      item.author,
+      item.pages,
+      item.published,
+      item.read
+    );
     book.createBook();
   });
 } else {
   setLocalStorage(DUMMY_BOOKS);
   DUMMY_BOOKS.map(item => {
-    const book = new Book(item.title, item.author, item.pages, item.published, item.read);
+    const book = new Book(
+      item.id,
+      item.title,
+      item.author,
+      item.pages,
+      item.published,
+      item.read
+    );
     book.createBook();
   });
 }
@@ -142,8 +165,9 @@ const onSubmitHandler = (e: any) => {
   const titleValue = enteredTitle.value;
   const authorValue = enteredAuthor.value;
   const pagesValue = enteredPages.value;
-  const publishedValue = changeFormatDate(enteredPublished.value) || 'unknown';
+  const publishedValue = changeFormatDate(enteredPublished.value);
   const readValue = enteredRead.checked;
+  const id = Date.now().toString();
 
   const checkInput =
     titleValue.length > 0 &&
@@ -153,7 +177,7 @@ const onSubmitHandler = (e: any) => {
 
   if (checkInput) {
     getLocalStorage.push({
-      id: Date.now().toString(),
+      id: id,
       title: titleValue,
       author: authorValue,
       pages: pagesValue,
@@ -165,7 +189,14 @@ const onSubmitHandler = (e: any) => {
     totalBooks.innerHTML = getLocalStorage.length;
     sumTotalReadBooks();
 
-    const book = new Book(titleValue, authorValue, pagesValue, publishedValue, readValue);
+    const book = new Book(
+      id,
+      titleValue,
+      authorValue,
+      pagesValue,
+      publishedValue,
+      readValue
+    );
     book.createBook();
 
     form.reset();
