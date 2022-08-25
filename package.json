@@ -1,0 +1,23 @@
+{
+  "name": "odin-library_app",
+  "version": "1.0.0",
+  "description": "## <a href=\"https://www.theodinproject.com/\">The Odin Project</a> : Full Stack JavaScript Path - JAVASCRIPT Chapter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lolikana/odin-library_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lolikana/odin-library_app/issues"
+  },
+  "homepage": "https://github.com/lolikana/odin-library_app#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
