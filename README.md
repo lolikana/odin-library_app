@@ -1,4 +1,4 @@
-# odin-etch_and_sketch
+# odin-library_app
 
 ## <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JavaScript Path - JAVASCRIPT Chapter
 
@@ -6,10 +6,12 @@
 
 #### Project : Library
 
-<a href="https://lolikana.github.io/odin-etch_and_sketch/" target="_blank">Live Preview</a> with Github.
+<a href="https://lolikana.github.io/odin-library_app/" target="_blank">Live Preview</a> with Github.
 
 Memo :
-- [ ] none yet
+- [ ] Add Edit Function
+- [ ] Add Delete Function
+- [ ] Library Log: wait to push List to localStorage before read localStorage (sumTotalReadBooks function)
 
 Extra :
 - [ ] none yet
