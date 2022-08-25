@@ -4,6 +4,9 @@
 @import 'typography';
 @import 'responsive';
 
+@import 'modal';
+@import 'library';
+
 .header {
   height: 128px;
   box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.8);
@@ -30,13 +33,35 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
-
-    h2 {
-      display: none;
-    }
   }
+}
 
-  @include mq('xxs') {
+main {
+  padding: 3rem 0.2rem;
+}
+
+#btn_add_book {
+  background-color: $primary-main;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#searchInput {
+  background-image: url('./../images/search_FILL0_wght400_GRAD0_opsz48.svg');
+  background-repeat: no-repeat;
+  background-size: 1.75rem;
+  background-position: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 2.5rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(34, 34, 34, 0.541);
+}
+
+@include mq('xxs') {
+  .header {
     &__log {
       align-items: baseline;
       h2 {
@@ -44,8 +69,14 @@
       }
     }
   }
+}
 
-  @include mq('sm') {
+@include mq('sm') {
+  main {
+    padding: 3rem 2rem;
+  }
+
+  .header {
     flex-direction: row;
     justify-content: space-between;
     padding: 0 5rem 0 7rem;
@@ -58,56 +89,5 @@
       border-radius: 2px;
       background-color: #fff;
     }
-  }
-}
-
-main {
-  padding: 3rem;
-}
-
-table,
-th,
-td {
-  border-collapse: collapse;
-}
-
-table {
-  width: 100%;
-  thead {
-    tr {
-      border-bottom: 3px inset black;
-      th {
-        padding: 0.5rem;
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  tbody {
-    tr {
-      border-bottom: 1px solid rgb(65, 65, 65, 0.5);
-      &:nth-child(even) {
-        background-color: rgb(135, 135, 135, 0.4);
-        &:hover {
-          background-color: rgb(135, 135, 135, 0.3);
-        }
-      }
-      &:nth-child(odd) {
-        &:hover {
-          background-color: rgb(135, 135, 135, 0.1);
-        }
-      }
-      td {
-        padding: 0.4rem 0.5rem;
-        text-align: center;
-
-        &:first-child {
-          text-align: left;
-        }
-      }
-    }
-  }
-  .read {
-    margin: auto;
   }
 }

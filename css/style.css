@@ -105,6 +105,192 @@ tr td {
   font-size: calc(14px + 2 * (100vw - 300px) / 1300);
 }
 
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal_content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 400px;
+}
+.modal_content form .form_actions {
+  margin: 0.5rem 0;
+}
+.modal_content form .form_actions input {
+  width: 100%;
+  margin-top: 0.25rem;
+  border: 1px solid rgba(114, 114, 114, 0.553);
+}
+.modal_content form .form_actions input[type=number], .modal_content form .form_actions input[type=date] {
+  max-width: 150px;
+}
+.modal_content form input[type=submit] {
+  background-color: #bc1c1c;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  margin: 0.25rem auto;
+  cursor: pointer;
+}
+
+/* The Close Button */
+.close_modal {
+  position: absolute;
+  color: #aaaaaa;
+  top: 0;
+  right: 1rem;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close_modal:hover,
+.close_modal:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.switch {
+  position: relative;
+  width: 2rem;
+  height: 1rem;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 0.75rem;
+  width: 0.75rem;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(0.75rem);
+  -ms-transform: translateX(0.75rem);
+  transform: translateX(0.75rem);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+table thead tr {
+  border-bottom: 3px inset black;
+}
+table thead tr th {
+  padding: 0.5rem;
+  text-transform: uppercase;
+}
+table thead tr th:nth-child(4) {
+  display: none;
+}
+table tbody tr {
+  border-bottom: 1px solid rgba(65, 65, 65, 0.5);
+}
+table tbody tr:nth-child(even) {
+  background-color: rgba(135, 135, 135, 0.4);
+}
+table tbody tr:nth-child(even):hover {
+  background-color: rgba(135, 135, 135, 0.3);
+}
+table tbody tr:nth-child(odd):hover {
+  background-color: rgba(135, 135, 135, 0.1);
+}
+table tbody tr td {
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+}
+table tbody tr td:first-child {
+  text-align: left;
+}
+table tbody tr td:nth-child(4) {
+  display: none;
+}
+table tbody tr td:last-child > div {
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+}
+table .read {
+  margin: auto;
+}
+
+@media screen and (min-width: 560px) {
+  table thead tr th:nth-child(4) {
+    display: block;
+  }
+  table tbody tr td:nth-child(4) {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  table tbody tr td:last-child > div {
+    flex-direction: row;
+  }
+}
 .header {
   height: 128px;
   box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.8);
@@ -130,9 +316,31 @@ tr td {
   align-items: center;
   gap: 1rem;
 }
-.header__log h2 {
-  display: none;
+
+main {
+  padding: 3rem 0.2rem;
 }
+
+#btn_add_book {
+  background-color: #bc1c1c;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#searchInput {
+  background-image: url("./../images/search_FILL0_wght400_GRAD0_opsz48.svg");
+  background-repeat: no-repeat;
+  background-size: 1.75rem;
+  background-position: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 2.5rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(34, 34, 34, 0.541);
+}
+
 @media screen and (min-width: 440px) {
   .header__log {
     align-items: baseline;
@@ -142,6 +350,9 @@ tr td {
   }
 }
 @media screen and (min-width: 680px) {
+  main {
+    padding: 3rem 2rem;
+  }
   .header {
     flex-direction: row;
     justify-content: space-between;
@@ -155,47 +366,4 @@ tr td {
     border-radius: 2px;
     background-color: #fff;
   }
-}
-
-main {
-  padding: 3rem;
-}
-
-table,
-th,
-td {
-  border-collapse: collapse;
-}
-
-table {
-  width: 100%;
-}
-table thead tr {
-  border-bottom: 3px inset black;
-}
-table thead tr th {
-  padding: 0.5rem;
-  text-transform: uppercase;
-}
-table tbody tr {
-  border-bottom: 1px solid rgba(65, 65, 65, 0.5);
-}
-table tbody tr:nth-child(even) {
-  background-color: rgba(135, 135, 135, 0.4);
-}
-table tbody tr:nth-child(even):hover {
-  background-color: rgba(135, 135, 135, 0.3);
-}
-table tbody tr:nth-child(odd):hover {
-  background-color: rgba(135, 135, 135, 0.1);
-}
-table tbody tr td {
-  padding: 0.4rem 0.5rem;
-  text-align: center;
-}
-table tbody tr td:first-child {
-  text-align: left;
-}
-table .read {
-  margin: auto;
 }
