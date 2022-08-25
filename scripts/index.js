@@ -115,7 +115,7 @@ const onSubmitHandler = (e) => {
         publishedValue.length > 0;
     if (checkInput) {
         getLocalStorage.push({
-            id: Date.now().toString(),
+            id: id,
             title: titleValue,
             author: authorValue,
             pages: pagesValue,
