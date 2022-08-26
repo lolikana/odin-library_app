@@ -2,6 +2,9 @@
 const table = document.getElementById('table__library');
 const tbodyRef = table.querySelector('tbody');
 const tr = table.getElementsByTagName('tr');
+const modal = document.getElementById('my_modal');
+const spanClose = document.querySelector('.close_modal');
+const btnModal = document.getElementById('btn_add_book');
 const changeFormatDate = (date) => {
     if (date) {
         const splitDate = date.split('-');
@@ -12,9 +15,10 @@ const changeFormatDate = (date) => {
         return 'unknown';
     }
 };
-const modal = document.getElementById('my_modal');
-const spanClose = document.querySelector('.close_modal');
-const btnModal = document.getElementById('btn_add_book');
+const createNewBook = (id, title, author, pages, published, read) => {
+    const book = new Book(id, title, author, pages, published, read);
+    book.createBook();
+};
 btnModal.addEventListener('click', () => {
     modal.style.display = 'block';
 });
@@ -82,8 +86,7 @@ const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST', JSON.stringi
 const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST'));
 const mapBooksList = (arr) => {
     arr.map((item) => {
-        const book = new Book(item.id, item.title, item.author, item.pages, item.published, item.read);
-        book.createBook();
+        createNewBook(item.id, item.title, item.author, item.pages, item.published, item.read);
     });
 };
 if (getLocalStorage) {
@@ -124,13 +127,11 @@ const onSubmitHandler = (e) => {
         if (getLocalStorage !== null) {
             getLocalStorage.push(bookInput);
             setLocalStorage(getLocalStorage);
-            const book = new Book(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
-            book.createBook();
-            DUMMY_BOOKS.push(bookInput);
+            createNewBook(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
         }
         else {
-            setLocalStorage([bookInput]);
-            DUMMY_BOOKS.splice(0, DUMMY_BOOKS.length).push(bookInput);
+            setLocalStorage([...DUMMY_BOOKS, bookInput]);
+            createNewBook(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
         }
         form.reset();
     }

@@ -2,6 +2,10 @@ const table = document.getElementById('table__library')!;
 const tbodyRef = table.querySelector('tbody');
 const tr = table.getElementsByTagName('tr');
 
+const modal = document.getElementById('my_modal')!;
+const spanClose = document.querySelector('.close_modal');
+const btnModal = document.getElementById('btn_add_book');
+
 // ------ lib ------ //
 
 const changeFormatDate = (date: string) => {
@@ -14,10 +18,30 @@ const changeFormatDate = (date: string) => {
   }
 };
 
+const createNewBook = (
+  id: string,
+  title: string,
+  author: string,
+  pages: string,
+  published: string,
+  read: boolean
+) => {
+  const book = new Book(id, title, author, pages, published, read);
+  book.createBook();
+};
+
+// ------ TYPES ------ //
+
+type BookType = {
+  id: string;
+  title: string;
+  author: string;
+  pages: string;
+  published: string;
+  read: boolean;
+};
+
 // ------ MODAL ------ //
-const modal = document.getElementById('my_modal')!;
-const spanClose = document.querySelector('.close_modal');
-const btnModal = document.getElementById('btn_add_book');
 
 btnModal!.addEventListener('click', () => {
   modal.style.display = 'block';
@@ -80,15 +104,6 @@ class Book {
 }
 
 //? BOOKS API
-type BookType = {
-  id: string;
-  title: string;
-  author: string;
-  pages: string;
-  published: string;
-  read: boolean;
-};
-
 const DUMMY_BOOKS: BookType[] = [
   {
     id: '1',
@@ -121,7 +136,7 @@ const setLocalStorage = (arr: BookType[]) =>
 const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST')!);
 const mapBooksList = (arr: BookType[]) => {
   arr.map((item: BookType) => {
-    const book = new Book(
+    createNewBook(
       item.id,
       item.title,
       item.author,
@@ -129,7 +144,6 @@ const mapBooksList = (arr: BookType[]) => {
       item.published,
       item.read
     );
-    book.createBook();
   });
 };
 
@@ -180,20 +194,10 @@ const onSubmitHandler = (e: any) => {
     if (getLocalStorage !== null) {
       getLocalStorage.push(bookInput);
       setLocalStorage(getLocalStorage);
-      const book = new Book(
-        id,
-        titleValue,
-        authorValue,
-        pagesValue,
-        publishedValue,
-        readValue
-      );
-      book.createBook();
-      DUMMY_BOOKS.push(bookInput);
+      createNewBook(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
     } else {
-      setLocalStorage([bookInput]);
-      DUMMY_BOOKS.splice(0, DUMMY_BOOKS.length).push(bookInput)
-      
+      setLocalStorage([...DUMMY_BOOKS, bookInput]);
+      createNewBook(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
     }
     form.reset();
   }
