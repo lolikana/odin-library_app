@@ -3,8 +3,14 @@ const table = document.getElementById('table__library');
 const tbodyRef = table.querySelector('tbody');
 const tr = table.getElementsByTagName('tr');
 const changeFormatDate = (date) => {
-    const splitDate = date.split('-');
-    return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
+    if (date) {
+        const splitDate = date.split('-');
+        console.log(splitDate);
+        return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
+    }
+    else {
+        return 'unknown';
+    }
 };
 const modal = document.getElementById('my_modal');
 const spanClose = document.querySelector('.close_modal');
@@ -21,7 +27,8 @@ window.addEventListener('click', e => {
     }
 });
 class Book {
-    constructor(title, author, pages, published, read) {
+    constructor(id, title, author, pages, published, read) {
+        id;
         this.title = title;
         this.author = author;
         this.pages = pages;
@@ -29,6 +36,7 @@ class Book {
         this.read = read;
         this.createBook = () => {
             var newRow = tbodyRef.insertRow();
+            newRow.id = id;
             var newCell = newRow.insertCell();
             newCell.innerHTML = title;
             newCell = newRow.insertCell();
@@ -74,13 +82,14 @@ const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST', JSON.stringi
 const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST'));
 if (getLocalStorage) {
     getLocalStorage.map((item) => {
-        const book = new Book(item.title, item.author, item.pages, item.published, item.read);
+        const book = new Book(item.id, item.title, item.author, item.pages, item.published, item.read);
         book.createBook();
     });
 }
 else {
+    setLocalStorage(DUMMY_BOOKS);
     DUMMY_BOOKS.map(item => {
-        const book = new Book(item.title, item.author, item.pages, item.published, item.read);
+        const book = new Book(item.id, item.title, item.author, item.pages, item.published, item.read);
         book.createBook();
     });
 }
@@ -97,31 +106,27 @@ const onSubmitHandler = (e) => {
     const titleValue = enteredTitle.value;
     const authorValue = enteredAuthor.value;
     const pagesValue = enteredPages.value;
-    const publishedValue = changeFormatDate(enteredPublished.value) || 'unknown';
+    const publishedValue = changeFormatDate(enteredPublished.value);
     const readValue = enteredRead.checked;
+    const id = Date.now().toString();
     const checkInput = titleValue.length > 0 &&
         authorValue.length > 0 &&
         pagesValue.length > 0 &&
         publishedValue.length > 0;
-    const bookInput = {
-        id: Date.now().toString(),
-        title: titleValue,
-        author: authorValue,
-        pages: pagesValue,
-        published: publishedValue,
-        read: readValue
-    };
     if (checkInput) {
-        if (getLocalStorage !== null) {
-            getLocalStorage.push(bookInput);
-            setLocalStorage(getLocalStorage);
-            const book = new Book(titleValue, authorValue, pagesValue, publishedValue, readValue);
-            book.createBook();
-            DUMMY_BOOKS.push();
-        }
-        else {
-            setLocalStorage([bookInput]);
-        }
+        getLocalStorage.push({
+            id: id,
+            title: titleValue,
+            author: authorValue,
+            pages: pagesValue,
+            published: publishedValue,
+            read: readValue
+        });
+        setLocalStorage(getLocalStorage);
+        totalBooks.innerHTML = getLocalStorage.length;
+        sumTotalReadBooks();
+        const book = new Book(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
+        book.createBook();
         form.reset();
     }
 };
@@ -147,17 +152,11 @@ const totalBooks = document.querySelector('.log__books_total');
 const totalReadBooks = document.querySelector('.log__books_read');
 const sumTotalReadBooks = () => {
     let sum = 0;
-    if (getLocalStorage) {
-        for (let i = 0; i < getLocalStorage.length; i++) {
-            getLocalStorage[i].read && (sum += 1);
-        }
-        totalBooks.innerHTML = getLocalStorage.length;
-        totalReadBooks.innerHTML = `${sum}`;
+    for (let i = 0; i < getLocalStorage.length; i++) {
+        getLocalStorage[i].read && (sum += 1);
     }
-    else {
-        totalBooks.innerHTML = '0';
-        totalReadBooks.innerHTML = '0';
-    }
+    totalBooks.innerHTML = getLocalStorage.length;
+    totalReadBooks.innerHTML = `${sum}`;
 };
 sumTotalReadBooks();
 //# sourceMappingURL=index.js.map

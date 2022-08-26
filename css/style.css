@@ -242,6 +242,9 @@ table thead tr th {
   padding: 0.5rem;
   text-transform: uppercase;
 }
+table thead tr th:first-child {
+  text-align: left;
+}
 table thead tr th:nth-child(4) {
   display: none;
 }
@@ -284,8 +287,7 @@ table .read {
     display: block;
   }
   table tbody tr td:nth-child(4) {
-    display: inline-block;
-    vertical-align: middle;
+    display: table-cell;
   }
   table tbody tr td:last-child > div {
     flex-direction: row;

@@ -12,6 +12,9 @@ table {
       th {
         padding: 0.5rem;
         text-transform: uppercase;
+        &:first-child {
+          text-align: left;
+        }
         &:nth-child(4) {
           display: none;
         }
@@ -73,8 +76,7 @@ table {
       tr {
         td {
           &:nth-child(4) {
-            display: inline-block;
-            vertical-align: middle;
+            display:table-cell
           }
           &:last-child > div {
             flex-direction: row;
