@@ -80,18 +80,17 @@ const DUMMY_BOOKS = [
 ];
 const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST', JSON.stringify(arr));
 const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST'));
-if (getLocalStorage) {
-    getLocalStorage.map((item) => {
+const mapBooksList = (arr) => {
+    arr.map((item) => {
         const book = new Book(item.id, item.title, item.author, item.pages, item.published, item.read);
         book.createBook();
     });
+};
+if (getLocalStorage) {
+    mapBooksList(getLocalStorage);
 }
 else {
-    setLocalStorage(DUMMY_BOOKS);
-    DUMMY_BOOKS.map(item => {
-        const book = new Book(item.id, item.title, item.author, item.pages, item.published, item.read);
-        book.createBook();
-    });
+    mapBooksList(DUMMY_BOOKS);
 }
 const form = document.querySelector('#my_form');
 const submitBtn = document.querySelector('.submit_btn');
@@ -113,20 +112,26 @@ const onSubmitHandler = (e) => {
         authorValue.length > 0 &&
         pagesValue.length > 0 &&
         publishedValue.length > 0;
+    const bookInput = {
+        id: Date.now().toString(),
+        title: titleValue,
+        author: authorValue,
+        pages: pagesValue,
+        published: publishedValue,
+        read: readValue
+    };
     if (checkInput) {
-        getLocalStorage.push({
-            id: id,
-            title: titleValue,
-            author: authorValue,
-            pages: pagesValue,
-            published: publishedValue,
-            read: readValue
-        });
-        setLocalStorage(getLocalStorage);
-        totalBooks.innerHTML = getLocalStorage.length;
-        sumTotalReadBooks();
-        const book = new Book(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
-        book.createBook();
+        if (getLocalStorage !== null) {
+            getLocalStorage.push(bookInput);
+            setLocalStorage(getLocalStorage);
+            const book = new Book(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
+            book.createBook();
+            DUMMY_BOOKS.push(bookInput);
+        }
+        else {
+            setLocalStorage([bookInput]);
+            DUMMY_BOOKS.splice(0, DUMMY_BOOKS.length).push(bookInput);
+        }
         form.reset();
     }
 };
@@ -152,11 +157,17 @@ const totalBooks = document.querySelector('.log__books_total');
 const totalReadBooks = document.querySelector('.log__books_read');
 const sumTotalReadBooks = () => {
     let sum = 0;
-    for (let i = 0; i < getLocalStorage.length; i++) {
-        getLocalStorage[i].read && (sum += 1);
+    if (getLocalStorage) {
+        for (let i = 0; i < getLocalStorage.length; i++) {
+            getLocalStorage[i].read && (sum += 1);
+        }
+        totalBooks.innerHTML = getLocalStorage.length;
+        totalReadBooks.innerHTML = `${sum}`;
     }
-    totalBooks.innerHTML = getLocalStorage.length;
-    totalReadBooks.innerHTML = `${sum}`;
+    else {
+        totalBooks.innerHTML = DUMMY_BOOKS.length.toString();
+        totalReadBooks.innerHTML = '2';
+    }
 };
 sumTotalReadBooks();
 //# sourceMappingURL=index.js.map
