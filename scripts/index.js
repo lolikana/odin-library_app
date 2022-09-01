@@ -50,7 +50,7 @@ class Book {
             newCell = newRow.insertCell();
             newCell.innerHTML = published;
             newCell = newRow.insertCell();
-            newCell.innerHTML = `<input type="checkbox" name="read" class="read" ${read ? 'checked' : ''} />  `;
+            newCell.innerHTML = `<input type="checkbox" name="read" class="check_read" ${read === 'true' ? 'checked' : ''} />  `;
             newCell = newRow.insertCell();
             newCell.innerHTML = `<div><button class="btn_edit">🖊</button><span>/</span><button class="btn_delete">❌</button></div>`;
         };
@@ -63,7 +63,7 @@ const DUMMY_BOOKS = [
         author: 'J.R.R. Tolkien',
         pages: '423',
         published: '29/07/1954',
-        read: true
+        read: 'true'
     },
     {
         id: '2',
@@ -71,7 +71,7 @@ const DUMMY_BOOKS = [
         author: 'J.R.R. Tolkien',
         pages: '352',
         published: '29/07/1954',
-        read: true
+        read: 'true'
     },
     {
         id: '3',
@@ -79,7 +79,7 @@ const DUMMY_BOOKS = [
         author: 'J.R.R. Tolkien',
         pages: '416',
         published: '20/10/1955',
-        read: false
+        read: 'false'
     }
 ];
 const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST', JSON.stringify(arr));
@@ -109,7 +109,7 @@ const onSubmitHandler = (e) => {
     const authorValue = enteredAuthor.value;
     const pagesValue = enteredPages.value;
     const publishedValue = changeFormatDate(enteredPublished.value);
-    const readValue = enteredRead.checked;
+    const readValue = enteredRead.checked.toString();
     const id = Date.now().toString();
     const checkInput = titleValue.length > 0 &&
         authorValue.length > 0 &&
@@ -135,6 +135,8 @@ const onSubmitHandler = (e) => {
         }
         form.reset();
     }
+    modal.style.display = 'none';
+    location.reload();
 };
 submitBtn.addEventListener('click', onSubmitHandler);
 const deleteBtn = document.getElementsByClassName('btn_delete');
@@ -171,4 +173,18 @@ const sumTotalReadBooks = () => {
     }
 };
 sumTotalReadBooks();
+const checkboxGet = document.getElementsByClassName('check_read');
+for (let i = 0; i < checkboxGet.length; i++) {
+    checkboxGet[i].addEventListener('change', () => {
+        const checkboxStatus = checkboxGet[i].checked;
+        !checkboxStatus
+            ? checkboxGet[i].removeAttribute('checked')
+            : checkboxGet[i].setAttribute('checked', '');
+        const id = tr[i + 1].id;
+        const bookRead = getLocalStorage.filter((book) => book.id === id);
+        console.log(bookRead[0]);
+        bookRead[0].read = checkboxStatus.toString();
+        localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+    });
+}
 //# sourceMappingURL=index.js.map
