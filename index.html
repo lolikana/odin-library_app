@@ -80,6 +80,72 @@
         </div>
       </div>
 
+      <!-- Add a book modal and input -->
+      <div id="my_modal-edit" class="modal">
+        <div class="modal_content">
+          <span class="close_modal">&times;</span>
+          <form id="my_form">
+            <div class="form_actions">
+              <label for="title-edit">Title</label>
+              <input
+                type="text"
+                name="title-edit"
+                id="title"
+                class="input_title-edit"
+                required
+              />
+            </div>
+            <div class="form_actions">
+              <label for="author-edit">Author</label>
+              <input
+                type="text"
+                name="author-edit"
+                id="author"
+                class="input_author-edit"
+                required
+              />
+            </div>
+            <div class="form_actions">
+              <label for="pages-edit">Nb of pages</label>
+              <input
+                type="number"
+                name="pages-edit"
+                id="pages"
+                min="1"
+                class="input_pages-edit"
+                required
+              />
+            </div>
+            <div class="form_actions">
+              <label for="published-edit">Published Date</label>
+              <input
+                type="date"
+                name="published-edit"
+                id="published"
+                class="input_published-edit"
+                required
+              />
+            </div>
+            <div class="form_actions">
+              <label for="input_read-edit"
+                >read / not read yet
+                <div class="switch">
+                  <input
+                    type="checkbox"
+                    name="input_read-edit"
+                    id="input_read"
+                    class="input_read-edit"
+                    checked
+                  />
+                  <span class="slider round"></span>
+                </div>
+              </label>
+            </div>
+            <input type="submit" class="submit_btn-edit" />
+          </form>
+        </div>
+      </div>
+
       <!-- Search input -->
       <input
         type="text"
