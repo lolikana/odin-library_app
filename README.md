@@ -9,9 +9,10 @@
 <a href="https://lolikana.github.io/odin-library_app/" target="_blank">Live Preview</a> with Github.
 
 Memo :
-- [ ] Add Edit Function
-- [ ] Add Delete Function
-- [ ] Library Log: wait to push List to localStorage before read localStorage (sumTotalReadBooks function)
+- [x] Add Edit Function
+- [ ] Fixed Edit Input Read
+- [x] Add Delete Function
+- [x] Library Log: wait to push List to localStorage before read localStorage (sumTotalReadBooks function)
 
 Extra :
 - [ ] none yet

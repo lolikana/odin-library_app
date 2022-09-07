@@ -16,10 +16,9 @@ const changeFormatDate = (date: string) => {
 const defaultFormatInputDate = (date: string) => {
   if (date && date !== 'unknown') {
     const splitDate = date.split('/');
-    console.log(`${splitDate[1]}-${splitDate[0]}-${splitDate[2]}`);
-    return `${splitDate[1]}-${splitDate[0]}-${splitDate[2]}`;
+    return `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`;
   } else {
-    return 'mm/dd/yyyy';
+    return '';
   }
 };
 
@@ -272,8 +271,8 @@ for (let i = 0; i < checkboxGet.length; i++) {
       ? checkboxGet[i].removeAttribute('checked')
       : checkboxGet[i].setAttribute('checked', '');
     const id = tr[i + 1].id;
-    const bookRead = getLocalStorage.filter((book: BookType) => book.id === id);
-    bookRead[0].read = checkboxStatus.toString();
+    const bookRead = getLocalStorage.filter((book: BookType) => book.id === id)[0];
+    bookRead.read = checkboxStatus.toString();
     localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
     location.reload();
   });
@@ -293,7 +292,7 @@ for (let i = 0; i < deleteBtn.length; i++) {
 
 // ------ EDIT BOOK ------ //
 const editBtn = document.getElementsByClassName('btn_edit')!;
-const editSubmitBtn = document.getElementsByClassName('submit_btn-edit')!;
+const editSubmitBtn = document.querySelector('.submit_btn-edit')!;
 const inputEditTitle: HTMLInputElement = document.querySelector('.input_title-edit')!;
 const inputEditAuthor: HTMLInputElement = document.querySelector('.input_author-edit')!;
 const inputEditPages: HTMLInputElement = document.querySelector('.input_pages-edit')!;
@@ -302,27 +301,36 @@ const inputEditPublished: HTMLInputElement = document.querySelector(
 )!;
 const inputEditRead: HTMLInputElement = document.querySelector('.input_read-edit')!;
 
-for (let i = 0; i < deleteBtn.length; i++) {
+for (let i = 0; i < editBtn.length; i++) {
   editBtn[i].addEventListener('click', () => {
     modalEdit.style.display = 'block';
     const id = tr[i + 1].id;
     const bookEdit = getLocalStorage.filter((book: BookType) => book.id === id)[0];
-    console.log(bookEdit);
 
     inputEditTitle.value = bookEdit.title;
     inputEditAuthor.value = bookEdit.author;
     inputEditPages.value = bookEdit.pages;
     inputEditPublished.value = defaultFormatInputDate(bookEdit.published);
     bookEdit.read === 'true'
-      ? inputEditRead.checked
+      ? inputEditRead.setAttribute('checked', '')
       : inputEditRead.removeAttribute('checked');
+
+    editSubmitBtn.addEventListener('click', (e: any) => {
+      e.preventDefault();
+      bookEdit.title = inputEditTitle.value;
+      bookEdit.author = inputEditAuthor.value;
+      bookEdit.pages = inputEditPages.value;
+      bookEdit.published = changeFormatDate(inputEditPublished.value);
+
+      localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+      form.reset();
+      modal.style.display = 'none';
+      location.reload();
+    });
   });
 
-  // let titleValue = enteredEditTitle.value;
-  // let authorValue = enteredEditAuthor.value;
-  // let pagesValue = enteredEditPages.value;
-  // let publishedValue = changeFormatDate(enteredEditPublished.value);
-  // const readValue = enteredEditRead.checked.toString();
+  // const onEditHandler = (e: any) => {
+  //   e.preventDefault();
 
-  // titleValue = bookEdit[0].title;
+  // };
 }
