@@ -48,7 +48,7 @@ type BookType = {
 
 // ------ MODAL ------ //
 const modal = document.getElementById('my_modal')!;
-const spanClose = document.querySelector('.close_modal')!;
+const spanClose = document.querySelectorAll('.close_modal')!;
 const btnModal = document.getElementById('btn_add_book')!;
 const modalEdit = document.getElementById('my_modal-edit')!;
 
@@ -56,11 +56,13 @@ btnModal.addEventListener('click', () => {
   modal.style.display = 'block';
 });
 
-spanClose.addEventListener('click', () => {
-  console.log('click');
-  modal.style.display = 'none';
-  modalEdit.style.display = 'none';
-});
+spanClose.forEach(span =>
+  span.addEventListener('click', () => {
+    console.log('click');
+    modal.style.display = 'none';
+    modalEdit.style.display = 'none';
+  })
+);
 
 window.addEventListener('click', e => {
   if (e.target == modal || e.target == modalEdit) {
