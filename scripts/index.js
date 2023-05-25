@@ -96,8 +96,8 @@ const DUMMY_BOOKS = [
         isRead: 'false'
     }
 ];
-const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST', JSON.stringify(arr));
-const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST'));
+const setLocalStorage = (arr) => localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(arr));
+const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST_BOOKS'));
 const mapBooksList = (arr) => {
     arr.map((item) => {
         createNewBook(item.id, item.title, item.author, item.pages, item.published, item.isRead);
@@ -190,7 +190,7 @@ checkboxGet.forEach((checkbox, index) => {
         const id = tr[index + 1].id;
         const bookRead = getLocalStorage.filter((book) => book.id === id)[0];
         bookRead.isRead = checkboxStatus.toString();
-        localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+        localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));
         totalReadBooks.innerHTML = `${checkboxStatus ? +totalReadBooks.innerHTML + 1 : +totalReadBooks.innerHTML - 1} `;
     });
 });
@@ -199,7 +199,7 @@ for (let i = 0; i < deleteBtn.length; i++) {
     (_a = deleteBtn[i]) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
         const id = tr[i + 1].id;
         const updatedList = getLocalStorage.filter((book) => book.id !== id);
-        localStorage.setItem('DUMMY_LIST', JSON.stringify(updatedList));
+        localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(updatedList));
         location.reload();
     });
 }
@@ -223,13 +223,15 @@ for (let i = 0; i < editBtn.length; i++) {
         bookEdit.isRead === 'true'
             ? inputEditRead.setAttribute('checked', '')
             : inputEditRead.removeAttribute('checked');
+        console.log(inputEditRead);
         editSubmitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             bookEdit.title = inputEditTitle.value;
             bookEdit.author = inputEditAuthor.value;
             bookEdit.pages = inputEditPages.value;
             bookEdit.published = changeFormatDate(inputEditPublished.value);
-            localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+            bookEdit.isRead = inputEditRead.checkValidity;
+            localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));
             form.reset();
             modal.style.display = 'none';
             location.reload();

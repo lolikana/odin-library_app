@@ -131,9 +131,9 @@ const DUMMY_BOOKS: BookType[] = [
 ];
 
 const setLocalStorage = (arr: BookType[]) =>
-  localStorage.setItem('DUMMY_LIST', JSON.stringify(arr));
+  localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(arr));
 
-const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST')!);
+const getLocalStorage = JSON.parse(localStorage.getItem('DUMMY_LIST_BOOKS')!);
 
 const mapBooksList = (arr: BookType[]) => {
   arr.map((item: BookType) => {
@@ -250,7 +250,7 @@ checkboxGet.forEach((checkbox, index) => {
     const id = tr[index + 1].id;
     const bookRead = getLocalStorage.filter((book: BookType) => book.id === id)[0];
     bookRead.isRead = checkboxStatus.toString();
-    localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+    localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));
     totalReadBooks.innerHTML = `${
       checkboxStatus ? +totalReadBooks.innerHTML + 1 : +totalReadBooks.innerHTML - 1
     } `;
@@ -264,7 +264,7 @@ for (let i = 0; i < deleteBtn.length; i++) {
   deleteBtn[i]?.addEventListener('click', () => {
     const id = tr[i + 1].id;
     const updatedList = getLocalStorage.filter((book: BookType) => book.id !== id);
-    localStorage.setItem('DUMMY_LIST', JSON.stringify(updatedList));
+    localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(updatedList));
     location.reload();
   });
 }
@@ -294,6 +294,7 @@ for (let i = 0; i < editBtn.length; i++) {
     bookEdit.isRead === 'true'
       ? inputEditRead.setAttribute('checked', '')
       : inputEditRead.removeAttribute('checked');
+    console.log(inputEditRead);
 
     editSubmitBtn.addEventListener('click', (e: any) => {
       e.preventDefault();
@@ -301,8 +302,9 @@ for (let i = 0; i < editBtn.length; i++) {
       bookEdit.author = inputEditAuthor.value;
       bookEdit.pages = inputEditPages.value;
       bookEdit.published = changeFormatDate(inputEditPublished.value);
+      bookEdit.isRead = inputEditRead.checkValidity;
 
-      localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
+      localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));
       form.reset();
       modal.style.display = 'none';
       location.reload();
