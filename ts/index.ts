@@ -202,9 +202,9 @@ const onSubmitHandler = (e: any) => {
       createNewBook(id, titleValue, authorValue, pagesValue, publishedValue, readValue);
     }
     form.reset();
+    modal.style.display = 'none';
+    location.reload();
   }
-  modal.style.display = 'none';
-  location.reload();
 };
 
 submitBtn.addEventListener('click', onSubmitHandler);
