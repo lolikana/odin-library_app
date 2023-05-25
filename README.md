@@ -10,7 +10,7 @@
 
 Memo :
 - [x] Add Edit Function
-- [ ] Fixed Edit Input Read
+- [x] Fixed Edit Input Read
 - [x] Add Delete Function
 - [x] Library Log: wait to push List to localStorage before read localStorage (sumTotalReadBooks function)
 
