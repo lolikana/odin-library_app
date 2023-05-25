@@ -1,6 +1,8 @@
 const table = document.getElementById('table__library')!;
 const tbodyRef = table.querySelector('tbody');
 const tr = table.getElementsByTagName('tr');
+const totalBooks = document.querySelector('.log__books_total')!;
+const totalReadBooks = document.querySelector('.log__books_read')!;
 
 // ------ lib ------ //
 
@@ -28,9 +30,9 @@ const createNewBook = (
   author: string,
   pages: string,
   published: string,
-  read: string
+  isRead: string
 ) => {
-  const book = new Book(id, title, author, pages, published, read);
+  const book = new Book(id, title, author, pages, published, isRead);
   book.createBook();
 };
 
@@ -42,7 +44,7 @@ type BookType = {
   author: string;
   pages: string;
   published: string;
-  read: string;
+  isRead: string;
 };
 
 // ------ MODAL ------ //
@@ -57,7 +59,6 @@ btnModal.addEventListener('click', () => {
 
 spanClose.forEach(span =>
   span.addEventListener('click', () => {
-    console.log('click');
     modal.style.display = 'none';
     modalEdit.style.display = 'none';
   })
@@ -73,46 +74,31 @@ window.addEventListener('click', e => {
 // ------ ADD BOOK ------ //
 //? Book object
 class Book {
-  // id: string;
-  title: string;
-  author: string;
-  pages: string;
-  published: string;
-  read: string;
-  createBook: () => void;
-
   constructor(
-    id: string,
-    title: string,
-    author: string,
-    pages: string,
-    published: string,
-    read: string
-  ) {
-    id;
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.published = published;
-    this.read = read;
-    this.createBook = () => {
-      var newRow = tbodyRef!.insertRow();
-      newRow.id = id;
-      var newCell = newRow.insertCell();
-      newCell.innerHTML = title;
-      newCell = newRow.insertCell();
-      newCell.innerHTML = author;
-      newCell = newRow.insertCell();
-      newCell.innerHTML = pages;
-      newCell = newRow.insertCell();
-      newCell.innerHTML = published;
-      newCell = newRow.insertCell();
-      newCell.innerHTML = `<input type="checkbox" name="read" class="check_read" ${
-        read === 'true' ? 'checked' : ''
-      } />  `;
-      newCell = newRow.insertCell();
-      newCell.innerHTML = `<div><button class="btn_edit">🖊</button><span>/</span><button class="btn_delete">❌</button></div>`;
-    };
+    private id: string,
+    private title: string,
+    private author: string,
+    private pages: string,
+    private published: string,
+    private isRead: string
+  ) {}
+  createBook(this: Book) {
+    var newRow = tbodyRef!.insertRow();
+    newRow.id = this.id;
+    var newCell = newRow.insertCell();
+    newCell.innerHTML = this.title;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = this.author;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = this.pages;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = this.published;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = `<input type="checkbox" name="read" class="check_read" ${
+      this.isRead === 'true' ? 'checked' : ''
+    } />  `;
+    newCell = newRow.insertCell();
+    newCell.innerHTML = `<div><button class="btn_edit">🖊</button><span>/</span><button class="btn_delete">❌</button></div>`;
   }
 }
 
@@ -124,7 +110,7 @@ const DUMMY_BOOKS: BookType[] = [
     author: 'J.R.R. Tolkien',
     pages: '423',
     published: '29/07/1954',
-    read: 'true'
+    isRead: 'true'
   },
   {
     id: '2',
@@ -132,7 +118,7 @@ const DUMMY_BOOKS: BookType[] = [
     author: 'J.R.R. Tolkien',
     pages: '352',
     published: '29/07/1954',
-    read: 'true'
+    isRead: 'true'
   },
   {
     id: '3',
@@ -140,7 +126,7 @@ const DUMMY_BOOKS: BookType[] = [
     author: 'J.R.R. Tolkien',
     pages: '416',
     published: '20/10/1955',
-    read: 'false'
+    isRead: 'false'
   }
 ];
 
@@ -157,15 +143,19 @@ const mapBooksList = (arr: BookType[]) => {
       item.author,
       item.pages,
       item.published,
-      item.read
+      item.isRead
     );
   });
 };
 
 if (getLocalStorage) {
   mapBooksList(getLocalStorage);
+  sumTotalReadBooks(getLocalStorage);
 } else {
+  setLocalStorage(DUMMY_BOOKS);
   mapBooksList(DUMMY_BOOKS);
+  sumTotalReadBooks(DUMMY_BOOKS);
+  location.reload();
 }
 
 //? FORM INPUT
@@ -175,10 +165,7 @@ const inputTitle: HTMLInputElement = document.querySelector('.input_title')!;
 const inputAuthor: HTMLInputElement = document.querySelector('.input_author')!;
 const inputPages: HTMLInputElement = document.querySelector('.input_pages')!;
 const inputPublished: HTMLInputElement = document.querySelector('.input_published')!;
-const inputRead: HTMLInputElement = document.querySelector('.input_read')!;
-// const inputs = document.querySelectorAll(
-//   '.input_title, .input_author, .input_pages, .input_published'
-// );
+const inputRead: HTMLInputElement = document.querySelector('.input_isRead')!;
 
 const onSubmitHandler = (e: any) => {
   e.preventDefault();
@@ -202,7 +189,7 @@ const onSubmitHandler = (e: any) => {
     author: authorValue,
     pages: pagesValue,
     published: publishedValue,
-    read: readValue
+    isRead: readValue
   };
 
   if (checkInput) {
@@ -224,8 +211,8 @@ submitBtn.addEventListener('click', onSubmitHandler);
 
 // ------ SEARCH BOOK ------ //
 const searchFunction = () => {
-  const input = document.getElementById('searchInput') as HTMLInputElement;
-  const filter = input.value.toUpperCase();
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  const filter = searchInput.value.toUpperCase();
   for (let i = 0; i < tr.length; i++) {
     const td = tr[i].getElementsByTagName('td')[0];
     if (td) {
@@ -240,43 +227,35 @@ const searchFunction = () => {
 };
 
 // ------ LIBRARY LOG ------ //
-
-const totalBooks = document.querySelector('.log__books_total')!;
-const totalReadBooks = document.querySelector('.log__books_read')!;
-
-const sumTotalReadBooks = () => {
+function sumTotalReadBooks(arr: any[]) {
   let sum = 0;
-  if (getLocalStorage) {
-    for (let i = 0; i < getLocalStorage.length; i++) {
-      getLocalStorage[i].read === 'true' && (sum += 1);
-    }
-    totalBooks.innerHTML = getLocalStorage.length;
-    totalReadBooks.innerHTML = `${sum}`;
-  } else {
-    totalBooks.innerHTML = DUMMY_BOOKS.length.toString();
-    totalReadBooks.innerHTML = '2';
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].isRead === 'true' && (sum += 1);
   }
-};
-sumTotalReadBooks();
+  totalBooks.innerHTML = `${arr.length}`;
+  totalReadBooks.innerHTML = `${sum}`;
+}
 
 // ------ UPDATE CHECKBOX READ ------ //
-const checkboxGet = document.getElementsByClassName(
-  'check_read'
-) as HTMLCollectionOf<HTMLInputElement>;
+const checkboxGet = document.querySelectorAll(
+  '.check_read'
+) as NodeListOf<HTMLInputElement>;
 
-for (let i = 0; i < checkboxGet.length; i++) {
-  checkboxGet[i].addEventListener('change', () => {
-    const checkboxStatus = checkboxGet[i].checked;
+checkboxGet.forEach((checkbox, index) => {
+  checkbox.addEventListener('change', () => {
+    const checkboxStatus = checkboxGet[index].checked;
     !checkboxStatus
-      ? checkboxGet[i].removeAttribute('checked')
-      : checkboxGet[i].setAttribute('checked', '');
-    const id = tr[i + 1].id;
+      ? checkboxGet[index].removeAttribute('checked')
+      : checkboxGet[index].setAttribute('checked', '');
+    const id = tr[index + 1].id;
     const bookRead = getLocalStorage.filter((book: BookType) => book.id === id)[0];
-    bookRead.read = checkboxStatus.toString();
+    bookRead.isRead = checkboxStatus.toString();
     localStorage.setItem('DUMMY_LIST', JSON.stringify(getLocalStorage));
-    location.reload();
+    totalReadBooks.innerHTML = `${
+      checkboxStatus ? +totalReadBooks.innerHTML + 1 : +totalReadBooks.innerHTML - 1
+    } `;
   });
-}
+});
 
 // ------ DELETE BOOK ------ //
 const deleteBtn = document.getElementsByClassName('btn_delete');
@@ -299,19 +278,20 @@ const inputEditPages: HTMLInputElement = document.querySelector('.input_pages-ed
 const inputEditPublished: HTMLInputElement = document.querySelector(
   '.input_published-edit'
 )!;
-const inputEditRead: HTMLInputElement = document.querySelector('.input_read-edit')!;
+const inputEditRead: HTMLInputElement = document.querySelector('.input_isRead-edit')!;
 
 for (let i = 0; i < editBtn.length; i++) {
   editBtn[i].addEventListener('click', () => {
     modalEdit.style.display = 'block';
     const id = tr[i + 1].id;
+    console.log(getLocalStorage);
     const bookEdit = getLocalStorage.filter((book: BookType) => book.id === id)[0];
 
     inputEditTitle.value = bookEdit.title;
     inputEditAuthor.value = bookEdit.author;
     inputEditPages.value = bookEdit.pages;
     inputEditPublished.value = defaultFormatInputDate(bookEdit.published);
-    bookEdit.read === 'true'
+    bookEdit.isRead === 'true'
       ? inputEditRead.setAttribute('checked', '')
       : inputEditRead.removeAttribute('checked');
 
@@ -328,9 +308,4 @@ for (let i = 0; i < editBtn.length; i++) {
       location.reload();
     });
   });
-
-  // const onEditHandler = (e: any) => {
-  //   e.preventDefault();
-
-  // };
 }

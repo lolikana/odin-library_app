@@ -4,6 +4,7 @@
   "description": "## <a href=\"https://www.theodinproject.com/\">The Odin Project</a> : Full Stack JavaScript Path - JAVASCRIPT Chapter",
   "main": "index.js",
   "scripts": {
+    "build:w": "npx tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
