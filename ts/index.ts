@@ -304,6 +304,14 @@ for (let i = 0; i < editBtn.length; i++) {
       bookEdit.published = changeFormatDate(inputEditPublished.value);
       bookEdit.isRead = inputEditRead.checkValidity;
 
+      const checkInput =
+        bookEdit.title.length > 0 &&
+        bookEdit.author.length > 0 &&
+        bookEdit.pages.length > 0 &&
+        bookEdit.published.length > 0;
+
+      if (!checkInput) return;
+
       localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));
       form.reset();
       modal.style.display = 'none';
