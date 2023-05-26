@@ -120,6 +120,7 @@ const inputAuthor = document.querySelector('.input_author');
 const inputPages = document.querySelector('.input_pages');
 const inputPublished = document.querySelector('.input_published');
 const inputRead = document.querySelector('.input_isRead');
+const inputsForm = document.querySelectorAll('input[data-input="input-form"]');
 const onSubmitHandler = (e) => {
     e.preventDefault();
     const titleValue = inputTitle.value;
@@ -131,7 +132,26 @@ const onSubmitHandler = (e) => {
     const checkInput = titleValue.length > 0 &&
         authorValue.length > 0 &&
         pagesValue.length > 0 &&
-        publishedValue.length > 0;
+        publishedValue !== 'unknown';
+    inputsForm.forEach(input => {
+        const errorMessage = document.querySelector(`p[data-input-error="input_${input.name}"]`);
+        if (input.validity.valueMissing) {
+            errorMessage.ariaHidden = 'false';
+            if (input.name === 'published') {
+                errorMessage.innerHTML = `Please, enter a correct date`;
+                return;
+            }
+            errorMessage.innerHTML = `Please, enter a ${input.name}`;
+        }
+        if (input.validity.rangeUnderflow) {
+            errorMessage.ariaHidden = 'false';
+            errorMessage.innerHTML = `Please, put a number of ${input.name} greater than 0`;
+        }
+        if (!input.validity.valueMissing && !input.validity.rangeUnderflow) {
+            errorMessage.ariaHidden = 'true';
+            errorMessage.innerHTML = '';
+        }
+    });
     const bookInput = {
         id: Date.now().toString(),
         title: titleValue,
@@ -210,11 +230,11 @@ const inputEditAuthor = document.querySelector('.input_author-edit');
 const inputEditPages = document.querySelector('.input_pages-edit');
 const inputEditPublished = document.querySelector('.input_published-edit');
 const inputEditRead = document.querySelector('.input_isRead-edit');
+const inputsFormEdit = document.querySelectorAll('input[data-input="input-edit"]');
 for (let i = 0; i < editBtn.length; i++) {
     editBtn[i].addEventListener('click', () => {
         modalEdit.style.display = 'block';
         const id = tr[i + 1].id;
-        console.log(getLocalStorage);
         const bookEdit = getLocalStorage.filter((book) => book.id === id)[0];
         inputEditTitle.value = bookEdit.title;
         inputEditAuthor.value = bookEdit.author;
@@ -223,7 +243,6 @@ for (let i = 0; i < editBtn.length; i++) {
         bookEdit.isRead === 'true'
             ? inputEditRead.setAttribute('checked', '')
             : inputEditRead.removeAttribute('checked');
-        console.log(inputEditRead);
         editSubmitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             bookEdit.title = inputEditTitle.value;
@@ -235,6 +254,25 @@ for (let i = 0; i < editBtn.length; i++) {
                 bookEdit.author.length > 0 &&
                 bookEdit.pages.length > 0 &&
                 bookEdit.published.length > 0;
+            inputsFormEdit.forEach(input => {
+                const errorMessage = document.querySelector(`p[data-input-error="${input.name}"]`);
+                if (input.validity.valueMissing) {
+                    errorMessage.ariaHidden = 'false';
+                    if (input.name === 'published') {
+                        errorMessage.innerHTML = `Please, enter a correct date`;
+                        return;
+                    }
+                    errorMessage.innerHTML = `Please, enter a ${input.name.slice(0, input.name.length - 5)}`;
+                }
+                if (input.validity.rangeUnderflow) {
+                    errorMessage.ariaHidden = 'false';
+                    errorMessage.innerHTML = `Please, put a number of ${input.name} greater than 0`;
+                }
+                if (!input.validity.valueMissing && !input.validity.rangeUnderflow) {
+                    errorMessage.ariaHidden = 'true';
+                    errorMessage.innerHTML = '';
+                }
+            });
             if (!checkInput)
                 return;
             localStorage.setItem('DUMMY_LIST_BOOKS', JSON.stringify(getLocalStorage));

@@ -91,3 +91,12 @@ main {
     }
   }
 }
+
+.error-message {
+	color: red;
+	font-size: .75rem
+}
+
+.error-message[aria-hidden='true'] {
+  display: none;
+}

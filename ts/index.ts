@@ -167,6 +167,10 @@ const inputPages: HTMLInputElement = document.querySelector('.input_pages')!;
 const inputPublished: HTMLInputElement = document.querySelector('.input_published')!;
 const inputRead: HTMLInputElement = document.querySelector('.input_isRead')!;
 
+const inputsForm: NodeListOf<HTMLInputElement> = document.querySelectorAll(
+  'input[data-input="input-form"]'
+);
+
 const onSubmitHandler = (e: any) => {
   e.preventDefault();
 
@@ -181,7 +185,34 @@ const onSubmitHandler = (e: any) => {
     titleValue.length > 0 &&
     authorValue.length > 0 &&
     pagesValue.length > 0 &&
-    publishedValue.length > 0;
+    publishedValue !== 'unknown';
+
+  // Check validity
+  inputsForm.forEach(input => {
+    const errorMessage = document.querySelector(
+      `p[data-input-error="input_${input.name}"]`
+    ) as HTMLParagraphElement;
+
+    if (input.validity.valueMissing) {
+      errorMessage.ariaHidden = 'false';
+      if (input.name === 'published') {
+        errorMessage.innerHTML = `Please, enter a correct date`;
+        return;
+      }
+
+      errorMessage.innerHTML = `Please, enter a ${input.name}`;
+    }
+
+    if (input.validity.rangeUnderflow) {
+      errorMessage.ariaHidden = 'false';
+      errorMessage.innerHTML = `Please, put a number of ${input.name} greater than 0`;
+    }
+
+    if (!input.validity.valueMissing && !input.validity.rangeUnderflow) {
+      errorMessage.ariaHidden = 'true';
+      errorMessage.innerHTML = '';
+    }
+  });
 
   const bookInput: BookType = {
     id: Date.now().toString(),
@@ -280,11 +311,14 @@ const inputEditPublished: HTMLInputElement = document.querySelector(
 )!;
 const inputEditRead: HTMLInputElement = document.querySelector('.input_isRead-edit')!;
 
+const inputsFormEdit: NodeListOf<HTMLInputElement> = document.querySelectorAll(
+  'input[data-input="input-edit"]'
+);
+
 for (let i = 0; i < editBtn.length; i++) {
   editBtn[i].addEventListener('click', () => {
     modalEdit.style.display = 'block';
     const id = tr[i + 1].id;
-    console.log(getLocalStorage);
     const bookEdit = getLocalStorage.filter((book: BookType) => book.id === id)[0];
 
     inputEditTitle.value = bookEdit.title;
@@ -294,7 +328,6 @@ for (let i = 0; i < editBtn.length; i++) {
     bookEdit.isRead === 'true'
       ? inputEditRead.setAttribute('checked', '')
       : inputEditRead.removeAttribute('checked');
-    console.log(inputEditRead);
 
     editSubmitBtn.addEventListener('click', (e: any) => {
       e.preventDefault();
@@ -309,6 +342,36 @@ for (let i = 0; i < editBtn.length; i++) {
         bookEdit.author.length > 0 &&
         bookEdit.pages.length > 0 &&
         bookEdit.published.length > 0;
+
+      // Check validity
+      inputsFormEdit.forEach(input => {
+        const errorMessage = document.querySelector(
+          `p[data-input-error="${input.name}"]`
+        ) as HTMLParagraphElement;
+
+        if (input.validity.valueMissing) {
+          errorMessage.ariaHidden = 'false';
+          if (input.name === 'published') {
+            errorMessage.innerHTML = `Please, enter a correct date`;
+            return;
+          }
+
+          errorMessage.innerHTML = `Please, enter a ${input.name.slice(
+            0,
+            input.name.length - 5
+          )}`;
+        }
+
+        if (input.validity.rangeUnderflow) {
+          errorMessage.ariaHidden = 'false';
+          errorMessage.innerHTML = `Please, put a number of ${input.name} greater than 0`;
+        }
+
+        if (!input.validity.valueMissing && !input.validity.rangeUnderflow) {
+          errorMessage.ariaHidden = 'true';
+          errorMessage.innerHTML = '';
+        }
+      });
 
       if (!checkInput) return;
 

@@ -27,7 +27,19 @@
           <form id="my_form">
             <div class="form_actions">
               <label for="title">Title</label>
-              <input type="text" name="title" id="title" class="input_title" required />
+              <input
+                type="text"
+                name="title"
+                id="title"
+                class="input_title"
+                data-input="input-form"
+                required
+              />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="input_title"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="author">Author</label>
@@ -36,8 +48,14 @@
                 name="author"
                 id="author"
                 class="input_author"
+                data-input="input-form"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="input_author"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="pages">Nb of pages</label>
@@ -47,8 +65,14 @@
                 id="pages"
                 min="1"
                 class="input_pages"
+                data-input="input-form"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="input_pages"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="published">Published Date</label>
@@ -57,8 +81,14 @@
                 name="published"
                 id="published"
                 class="input_published"
+                data-input="input-form"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="input_published"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="input_read"
@@ -92,8 +122,14 @@
                 name="title-edit"
                 id="title"
                 class="input_title-edit"
+                data-input="input-edit"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="title-edit"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="author-edit">Author</label>
@@ -102,8 +138,14 @@
                 name="author-edit"
                 id="author"
                 class="input_author-edit"
+                data-input="input-edit"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="author-edit"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="pages-edit">Nb of pages</label>
@@ -113,8 +155,14 @@
                 id="pages"
                 min="1"
                 class="input_pages-edit"
+                data-input="input-edit"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="pages-edit"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="published-edit">Published Date</label>
@@ -123,8 +171,14 @@
                 name="published-edit"
                 id="published"
                 class="input_published-edit"
+                data-input="input-edit"
                 required
               />
+              <p
+                aria-hidden="true"
+                class="error-message"
+                data-input-error="published-edit"
+              ></p>
             </div>
             <div class="form_actions">
               <label for="input_isRead-edit"
