@@ -325,6 +325,12 @@ main {
   padding: 3rem 0.2rem;
 }
 
+main,
+.header {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 #btn_add_book {
   background-color: #bc1c1c;
   border: none;

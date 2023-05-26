@@ -40,6 +40,12 @@ main {
   padding: 3rem 0.2rem;
 }
 
+main,
+.header {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 #btn_add_book {
   background-color: $primary-main;
   border: none;
@@ -93,8 +99,8 @@ main {
 }
 
 .error-message {
-	color: red;
-	font-size: .75rem
+  color: red;
+  font-size: 0.75rem;
 }
 
 .error-message[aria-hidden='true'] {
