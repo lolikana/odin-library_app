@@ -1,4 +1,4 @@
-# Webpack Restaurant
+# Library App
 
 ## <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JS - JAVASCRIPT Course
 
@@ -14,7 +14,7 @@ This project is a part of The Odin Project's JavaScript curriculum. It is a libr
 
 ## Technologies
 
-The Webpack Restaurant project uses the following technologies:
+The project uses the following technologies:
 
 - HTML
 - SASS
