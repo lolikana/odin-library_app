@@ -1,6 +1,6 @@
-# Library App
+# <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JS - JAVASCRIPT Course
 
-### <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JS - JAVASCRIPT Course
+## Library App
 
 ## Description
 
