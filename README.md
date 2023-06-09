@@ -1,6 +1,8 @@
 # Library App
 
-## <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JS - JAVASCRIPT Course
+### <a href="https://www.theodinproject.com/">The Odin Project</a> : Full Stack JS - JAVASCRIPT Course
+
+## Description
 
 This project is a part of The Odin Project's JavaScript curriculum. It is a library application built using HTML, CSS, and JavaScript. The application allows users to manage a collection of books by adding new books, marking books as read, and removing books from the library.
 
